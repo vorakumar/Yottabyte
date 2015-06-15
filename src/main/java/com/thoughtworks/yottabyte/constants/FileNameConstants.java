@@ -7,6 +7,7 @@ public enum FileNameConstants {
   REPAIR_IN_DOLLARS,
   REPAIRS,
   VEHICLES,
+  VEHICLES_COUNT,
   OLD_VEHICLES,
   VEHICLES_REPAIRS;
 
