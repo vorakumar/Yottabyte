@@ -4,7 +4,10 @@ import com.google.common.base.Preconditions;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
@@ -32,7 +35,13 @@ public class Driver extends Configured implements Tool {
     configuration.set(VEHICLE_DATE_FORMAT, get(VEHICLES.dateFormat()));
 
     Job job = Job.getInstance(configuration, this.getClass().getSimpleName());
-
+    MultipleInputs.addInputPath(job,getPath(configuration.get(VEHICLES.path())), TextInputFormat.class, TaggedVehicleMapper.class);
+    MultipleInputs.addInputPath(job,getPath(configuration.get(REPAIRS.path())), TextInputFormat.class, TaggedRepairMapper.class);
+    job.setSortComparatorClass(SortComparator.class);
+    job.setPartitionerClass(Partitioner.class);
+    job.setGroupingComparatorClass(GroupingComparator.class);
+    job.setJarByClass(getClass());
+    job.setReducerClass(DenormalizingReducer.class);
     return job.waitForCompletion(true) ? 0 : 1;
   }
 

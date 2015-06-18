@@ -5,6 +5,7 @@ import org.apache.hadoop.io.Text;
 public class Partitioner extends org.apache.hadoop.mapreduce.Partitioner<TaggedKey,Text> {
   @Override
   public int getPartition(TaggedKey key, Text taggedText, int numberOfReducers) {
-    return 0;
+
+    return Math.abs(key.vehicleType.hashCode()) % numberOfReducers;
   }
 }

@@ -1,11 +1,14 @@
 package com.thoughtworks.yottabyte.vehiclerepairdenormalization.secondarysortstrategy;
 
 import com.google.common.base.Preconditions;
+import com.thoughtworks.yottabyte.vehiclerepairdenormalization.domain.Tag;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
+
+import static com.thoughtworks.yottabyte.vehiclerepairdenormalization.domain.Tag.VEHICLE;
 
 public class TaggedVehicleMapper extends Mapper<Object, Text, TaggedKey, Text> {
 
@@ -27,6 +30,8 @@ public class TaggedVehicleMapper extends Mapper<Object, Text, TaggedKey, Text> {
 
   @Override
   protected void map(Object key, Text row, Context context) throws IOException, InterruptedException {
+    String vehicleType = row.toString().split(",")[0];
+    context.write(new TaggedKey(vehicleType.toUpperCase(), VEHICLE),row);
   }
 
 }

@@ -7,6 +7,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
+import static com.thoughtworks.yottabyte.vehiclerepairdenormalization.domain.Tag.REPAIR;
+
 public class TaggedRepairMapper extends Mapper<Object, Text, TaggedKey, Text> {
   public static final String REPAIR_COLUMN_SEPARATOR = "REPAIR_COLUMN_SEPARATOR";
 
@@ -25,6 +27,8 @@ public class TaggedRepairMapper extends Mapper<Object, Text, TaggedKey, Text> {
 
   @Override
   protected void map(Object key, Text row, Context context) throws IOException, InterruptedException {
+    String vehicleType = row.toString().split(",")[0];
+    context.write(new TaggedKey(vehicleType.toUpperCase(), REPAIR),row);
   }
 
 }

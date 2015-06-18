@@ -19,7 +19,7 @@ public class VehicleMapper extends Mapper<Object, Text, Text, IntWritable> {
   @Override
   public void map(Object key, Text row, Context context) throws IOException, InterruptedException {
     Vehicle vehicle = new Vehicle(row.toString(), COLUMN_SEPARATOR);
-    context.write(new Text(vehicle.type), one);
+//    context.write(new Text(vehicle.type), one));
   }
 
   @Override

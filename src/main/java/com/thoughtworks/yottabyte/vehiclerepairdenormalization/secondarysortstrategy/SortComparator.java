@@ -1,5 +1,6 @@
 package com.thoughtworks.yottabyte.vehiclerepairdenormalization.secondarysortstrategy;
 
+import org.apache.commons.collections.comparators.ComparatorChain;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 
@@ -11,6 +12,6 @@ public class SortComparator extends WritableComparator {
 
   @Override
   public int compare(WritableComparable w1, WritableComparable w2) {
-    return 0;
+    return w1.compareTo(w2);
   }
 }

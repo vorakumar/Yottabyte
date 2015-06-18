@@ -10,6 +10,6 @@ public class GroupingComparator extends WritableComparator {
 
   @Override
   public int compare(WritableComparable w1, WritableComparable w2) {
-    return 0;
+    return ((TaggedKey)w1).vehicleType.compareTo(((TaggedKey)w2).vehicleType);
   }
 }
